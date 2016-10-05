@@ -22,16 +22,14 @@ crmApp.config(['NgAdminConfigurationProvider', '$stateProvider', '$translateProv
 
     // ENTITIES
 
-    // admin.addEntity(nga.entity('customers'));
+    admin.addEntity(nga.entity('customers'));
     admin.addEntity(nga.entity('posts'));
     admin.addEntity(nga.entity('products'));
-    // admin.addEntity(nga.entity('purchases'));
     admin.addEntity(nga.entity('shops'));
 
-    // require('./entities/customers')(nga, admin);
+    require('./entities/customers')(nga, admin);
     require('./entities/posts')(nga, admin);
     require('./entities/products')(nga, admin);
-    // require('./entities/purchases')(nga, admin);
     require('./entities/shops')(nga, admin);
 
     // PAGES

@@ -13,8 +13,13 @@ module.exports = function(nga, admin) {
 								.icon('<span class="fa fa-gift fa-fw"></span>')
 								.title('Products')
 						)
+						.addChild(nga.menu(admin.getEntity('customers'))
+								.active(function(path){return path.indexOf('/customers') === 0})
+								.icon('<span class="fa fa-users fa-fw"></span>')
+								.title('Customers')
+						)
 				// 		.addChild(nga.menu()
-				// 				.title('Pedidos')
+				// 				.title('Purchases')
 				// 				.link('/purchases/list')
 				// 				// .link('/customers/list?search={"has_ordered":"true"}')
 				// 				.icon('<span class="fa fa-credit-card fa-fw"></span>'))
@@ -27,10 +32,6 @@ module.exports = function(nga, admin) {
 						.icon('<span class="fa fa-map-marker fa-fw"></span>')
 						.title('Shops')
 				)
-				// .addChild(nga.menu(admin.getEntity('customers'))
-				// 		.active(function(path){return path.indexOf('/customers') === 0})
-				// 		.icon('<span class="fa fa-users fa-fw"></span>')
-				// 		.title('Clientes')
-				// )
+
 		;
 };

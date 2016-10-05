@@ -3,7 +3,7 @@ var router = express.Router();
 var Promise = require('bluebird');
 
 var Customer = require('../models/customer.js');
-var Purchase = require('../models/purchase.js');
+// var Purchase = require('../models/purchase.js');
 
 // API DEFINITIONS
 router.get('/summary', [ getSummary ]);
@@ -16,13 +16,10 @@ function getSummary(req, res){
 
 	Promise.all([
 		Customer.count({ registered: {$gte: new Date(new Date().getFullYear(), 0, 1)} }),
-		Purchase.find({ date: {$gte: new Date(new Date().getFullYear(), 0, 1)} })
-			.select('amount shipping').lean().exec(),
-		Purchase.count({ status: 'Pending' }),
-		Purchase.count({ status: 'Processing' })
-		// Invoice.find({
-		// 	date: {$gte: new Date(new Date().getFullYear(), 0, 1)}
-		// }).select('cart shipping price').populate('cart.product').exec()
+		// Purchase.find({ date: {$gte: new Date(new Date().getFullYear(), 0, 1)} })
+		// 	.select('amount shipping').lean().exec(),
+		// Purchase.count({ status: 'Pending' }),
+		// Purchase.count({ status: 'Processing' })
 	])
 	.spread(function(customers, purchases, pending, processing){
 		cb.result = {
