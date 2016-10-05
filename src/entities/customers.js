@@ -26,14 +26,18 @@ module.exports = function (nga, admin) {
 								else if (entry.values.type == 'Retail') return 'bg-success';
 								else return 'bg-info';
 						}),
-				nga.field('delivery.city').label('City'),
 				nga.field('registered', 'date').label('Registered').format('dd/MM/yyyy')
 		])
 		.sortField('lastName')
 		.sortDir('ASC')
 		.listActions(['edit'])
+		.batchActions([
+			'<customers-mark-retail selection="selection"></customers-mark-retail>',
+			'<customers-mark-wholesale selection="selection"></customers-mark-wholesale>',
+			'delete'
+		])
 		.filters([
-			nga.field('type', 'choice').label('Tipo de cliente')
+			nga.field('type', 'choice')
 					.choices([
 							{label: 'Retail', value: 'Retail'},
 							{label: 'Wholesale', value: 'Wholesale'}
@@ -78,6 +82,11 @@ module.exports = function (nga, admin) {
 
 		customers.editionView()
 				.title('Customer')
+				.actions([
+					'<customer-mark-retail customer="entry"></customer-mark-retail>',
+					'<customer-mark-wholesale customer="entry"></customer-mark-wholesale>',
+					'list'
+				])
 				.fields([
 						nga.field('name'),
 						nga.field('lastName').label('Last Name'),

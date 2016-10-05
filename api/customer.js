@@ -8,6 +8,7 @@ const Customer = require('../models/customer.js');
 router.get('/customers/:id', [ wrap(getCustomer) ]);
 router.get('/customers', [ wrap(listCustomers) ]);
 router.post('/customers', [ wrap(addCustomer) ]);
+router.put('/customers/set/:type', [ wrap(setCustomerType) ]);
 router.put('/customers/:id', [ wrap(updateCustomer) ]);
 router.delete('/customers/:id', [ wrap(removeCustomer) ]);
 
@@ -31,16 +32,12 @@ function* getCustomer(req, res){
 }
 
 function* updateCustomer(req, res){
-	req.body.date = new Date();
-
 	const data = yield Customer.findByIdAndUpdate(req.params.id, req.body).lean().exec();
 	if(!data) return res.status(404).send('Not found');
 	res.send(data);
 }
 
 function* addCustomer(req, res) {
-	req.body.date = new Date();
-
 	const data = yield Customer.create(req.body)
 	if(!data) return res.status(404).send('Not found');
 	res.send(data);
@@ -49,6 +46,12 @@ function* addCustomer(req, res) {
 function* removeCustomer(req, res){
 	yield Customer.findByIdAndRemove(req.params.id).exec();
 	res.send();
+}
+
+function* setCustomerType(req, res){
+	const data = yield Customer.update({_id: {$in: req.body.customers}}, { type: req.params.type == 'wholesale' ? 'Wholesale' : 'Retail' }).lean().exec();
+	if(!data) return res.status(404).send('Not found');
+	res.send(data);
 }
 
 module.exports = router;
